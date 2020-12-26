@@ -9,13 +9,17 @@ contract StarNotary is ERC721 {
         string name;
     }
 
+    // Token name and symbol properties
+    string private tokenName = "Decentralized Star Notary Nikos";
+    string private tokenSymbol = "DSNN";
+     
+    constructor() ERC721(tokenName,tokenSymbol)  { }
+    
     // Store each star with a unique id
     mapping(uint256 => Star) public tokenIdToStarInfo;
 
     // Store value to stars for sales 
     mapping(uint256 => uint256) public starsForSale;
-
-    constructor() ERC721('','')  { }
 
     // Create Star using the Struct
     function createStar(string memory _name, uint256 _tokenId) public { // Passing the name and tokenId as a parameters
