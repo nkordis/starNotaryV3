@@ -2,10 +2,14 @@ const StarNotary = artifacts.require("StarNotary");
 
 var accounts;
 var owner;
+var tokenName;
+var symbol;
 
 contract('StarNotary', (accs) => {
     accounts = accs;
     owner = accounts[0];
+    tokenName = "Decentralized Star Notary Nikos";
+    tokenSymbol = "DSNN";
 });
 
 it('can Create a Star', async() => {
@@ -72,3 +76,14 @@ it('lets user2 buy a star and decreases its balance in ether', async() => {
     let value = Number(balanceOfUser2BeforeTransaction) - Number(balanceAfterUser2BuysStar);
     assert.equal(value, starPrice);
   });
+
+  it('can add the token name and token symbol properly', async() => {
+    // 1. create a Star with different tokenId
+    let instance = await StarNotary.deployed();
+    let user1 = accounts[1];
+    let starId = 6;
+    await instance.createStar('The star', starId, {from: user1});
+    //2. Call the name and symbol properties and compare with the name and symbol provided
+    assert.equal(await instance.name(), tokenName);
+    assert.equal(await instance.symbol(), tokenSymbol);
+});
