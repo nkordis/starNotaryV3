@@ -78,12 +78,24 @@ it('lets user2 buy a star and decreases its balance in ether', async() => {
   });
 
   it('can add the token name and token symbol properly', async() => {
-    // 1. create a Star with different tokenId
+    // Create a Star with different tokenId
     let instance = await StarNotary.deployed();
     let user1 = accounts[1];
     let starId = 6;
     await instance.createStar('The star', starId, {from: user1});
-    //2. Call the name and symbol properties and compare with the name and symbol provided
+    // Call the name and symbol properties and compare with the name and symbol provided
     assert.equal(await instance.name(), tokenName);
     assert.equal(await instance.symbol(), tokenSymbol);
+});
+
+it('lookUptokenIdToStarInfo test', async() => {
+    // Create a Star with different tokenId
+    let instance = await StarNotary.deployed();
+    let user1 = accounts[1];
+    let starId = 7;
+    await instance.createStar('The star', starId, {from: user1});
+    // Call method lookUptokenIdToStarInfo
+    let starName = await instance.lookUptokenIdToStarInfo(starId);
+    // Verify if the Star name is the same
+    assert.equal(starName, 'The star')
 });
